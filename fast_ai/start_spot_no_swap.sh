@@ -55,7 +55,7 @@ cat >specs.tmp <<EOF
   "ImageId" : "$ami",
   "InstanceType": "$ec2spotter_instance_type",
   "KeyName" : "$key_name",
-  "EbsOptimized": true,
+  "EbsOptimized": false,
   "BlockDeviceMappings": [
     {
       "DeviceName": "/dev/sda1",

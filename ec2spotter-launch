@@ -80,7 +80,7 @@ cat >specs.tmp <<EOF
   "ImageId" : "$ec2spotter_preboot_image_id",
   "InstanceType": "$ec2spotter_instance_type",
   "KeyName" : "$PUB_KEY",
-  "EbsOptimized": true,
+  "EbsOptimized": false,
   "Placement": {
      "AvailabilityZone": "$LAUNCH_ZONE"
   },
