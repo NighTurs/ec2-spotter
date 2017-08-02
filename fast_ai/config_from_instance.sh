@@ -39,7 +39,7 @@ fi
 aws ec2 modify-instance-attribute --instance-id $instanceId --block-device-mappings "[{\"DeviceName\": \"/dev/sda1\",\"Ebs\":{\"DeleteOnTermination\":false}}]"
 
 # Get the volume of the instance
-export volumeId=`aws ec2 describe-instances --filters Name=tag:Name,Values=$name-gpu-machine --output text --query 'Reservations[*].Instances[0].BlockDeviceMappings[0].Ebs.VolumeId'`
+export volumeId=`aws ec2 describe-instances --instance-ids $instanceId --output text --query 'Reservations[*].Instances[0].BlockDeviceMappings[0].Ebs.VolumeId'`
 
 # name the volume of this instance
 aws ec2 create-tags --resources $volumeId --tags Key=Name,Value="${name}-volume"
@@ -74,12 +74,13 @@ export region=`aws configure get region`
 # Ubuntu-xenial-16.04 in diff regions.
 # Ubuntu 16.04.1 LTS
 if [ $region = "us-west-2" ]; then 
-	export ami=ami-a58d0dc5 # Oregon
+	export ami=ami-7c803d1c # Oregon
 elif [ $region = "eu-west-1" ]; then 
-	export ami=ami-405f7226 # Ireland
+	export ami=ami-d8f4deab # Ireland
 elif [ $region = "us-east-1" ]; then
   	export ami=ami-6edd3078 # Virginia
 fi
+echo 'If you are using Amazon Deep Learning AMI, do not forget to change parameter ec2spotter_preboot_image_id in ../my.conf , otherwise the root swap script will fail!'
 
 # Get the scripts that will perform the swap from github
 # Switch to --branch stable eventually.
